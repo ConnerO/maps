@@ -1,0 +1,22 @@
+{
+  "name": "austinmaps",
+  "version": "1.0.0",
+  "description": "Maps with important info",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ConnerO/maps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ConnerO/maps/issues"
+  },
+  "homepage": "https://github.com/ConnerO/maps#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
