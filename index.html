@@ -22,18 +22,63 @@
       var myLatLng = {lat: 30.2500, lng: -97.7500};
       var mapOptions = {
         center: new google.maps.LatLng(30.2500, -97.7500),
-        zoom: 11,
+        zoom: 9,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
 
       var map = new google.maps.Map(mapCanvas, mapOptions);
 
+      addresses = [];
 
-      var marker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        title: 'Hello World!'
-      });
+      $.getJSON('https://data.austintexas.gov/resource/b4y9-5x39.json', function(data){
+        for (var i=0; i < data.length; i++) {
+          // var coords = results.features[i].geometry.coordinates;
+          var crime = data[i].crime_type;
+          var address = data[i].address;
+          console.log(crime, address);
+          // address = JSON.stringify(address)+", Austin";
+          addresses.push(address+", Austin");
+          // console.log(addresses[i]);
+        }
+        console.log(addresses);
+        for (var x = 0; x < data.length; x++) {
+          // $.getJSON("http://maps.googleapis.com/maps/api/geocode/json?address="+addresses[x]+"&sensor=false", null, function (data) {
+          //     var p = data.results[0].geometry.location
+          //     var latlng = new google.maps.LatLng(p.lat, p.lng);
+          //     new google.maps.Marker({
+          //         position: latlng,
+          //         map: map
+          //     });
+
+          // });
+      $.ajax({
+        dataType: "json",
+        url: "http://maps.googleapis.com/maps/api/geocode/json?address="+addresses[x]+"&sensor=false",
+        data: null,
+        success: function (data){
+          var p = data.results[0].geometry.location
+          var latlng = new google.maps.LatLng(p.lat, p.lng);
+          new google.maps.Marker({
+            position: latlng,
+            map: map
+          });
+
+        }
+      })
+    }
+  });
+
+
+      // var addressString = data[i].address.toString;
+      // var addresses = ["1600 BLOCK CATTLE TRL, Austin", "9100 BLOCK N IH 35 SVRD SB, Austin", "600 BLOCK RIVER ST, Austin", "6900 BLOCK BREEZY PASS, Austin"]
+
+      
+
+      // var marker = new google.maps.Marker({
+      //   position: myLatLng,
+      //   map: map,
+      //   title: 'Hello World!'
+      // });
 
     }
         //   // Create a <script> tag and set the USGS URL as the source.
@@ -67,16 +112,9 @@
 
 
 
-    
+// API CALL THAT WORKS    
 
-        $.getJSON('https://data.austintexas.gov/resource/b4y9-5x39.json', function(data){
-          for (var i=0; i < data.length; i++) {
-            // var coords = results.features[i].geometry.coordinates;
-            var crime = data[i].crime_type;
-            var address = data[i].address;
-            console.log(crime, address);
-          }
-        });
+
 
         //   function codeAddress() {
         //     var address = "Austin, TX";
@@ -96,6 +134,8 @@
         //   }
 
         // codeAddress();
+
+
         google.maps.event.addDomListener(window, 'load', initialize);
 
 
@@ -109,8 +149,7 @@
   <div id="map"></div>
 
 
-    <!-- API ENDPOINT -->
-    <p>https://data.austintexas.gov/resource/b4y9-5x39.json</p>
+
 
   <script type="text/javascript">
 
