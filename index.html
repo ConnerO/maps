@@ -35,51 +35,51 @@
           // var coords = results.features[i].geometry.coordinates;
           var crime = data[i].crime_type;
           var address = data[i].address;
-          console.log(crime, address);
-          // address = JSON.stringify(address)+", Austin";
-          addresses.push(address+", Austin");
+          // console.log(crime, address);
+          addresses.push([address+", Austin",crime]);
           // console.log(addresses[i]);
         }
-        console.log(addresses);
-        for (var x = 0; x < data.length; x++) {
-          // $.getJSON("http://maps.googleapis.com/maps/api/geocode/json?address="+addresses[x]+"&sensor=false", null, function (data) {
-          //     var p = data.results[0].geometry.location
-          //     var latlng = new google.maps.LatLng(p.lat, p.lng);
-          //     new google.maps.Marker({
-          //         position: latlng,
-          //         map: map
-          //     });
 
-          // });
-      $.ajax({
-        dataType: "json",
-        url: "http://maps.googleapis.com/maps/api/geocode/json?address="+addresses[x]+"&sensor=false",
-        data: null,
-        success: function (data){
-          var p = data.results[0].geometry.location
-          var latlng = new google.maps.LatLng(p.lat, p.lng);
-          new google.maps.Marker({
-            position: latlng,
-            map: map
-          });
+        // console.log(addresses);
+        for (var x = 0; x < 10; x++) {
+          // var y = this.addresses[x][1];
+          (function(x) {
+            $.ajax({
+              dataType: "json",
+              url: "http://maps.googleapis.com/maps/api/geocode/json?address="+addresses[x][0]+"&sensor=false",
+              // data: null,
+              success: function (data){
+                var p = data.results[0].geometry.location
+                var latlng = new google.maps.LatLng(p.lat, p.lng);
+                console.log(x);
+                var marker = new google.maps.Marker({
+                  position: latlng,
+                  map: map,
+                  title: addresses[x][1]
+                                  // console.log(title);
+          
+                // console.log(latlng);
+                });
+                marker.addListener('click', function() {
+                  // map.setZoom(15);
+                  map.setCenter(marker.getPosition());
+                  console.log(marker.title);
+                });
 
+
+
+                // data.marker.event(marker, 'click', (function(marker, x) {
+                //   return function() {
+                //   infowindow.setContent(addresses[x][0]);
+                //   infowindow.open(map, marker);
+                //   }
+                // })(marker, x));
+
+              }
+            })
+          })(x);
         }
-      })
-    }
-  });
-
-
-      // var addressString = data[i].address.toString;
-      // var addresses = ["1600 BLOCK CATTLE TRL, Austin", "9100 BLOCK N IH 35 SVRD SB, Austin", "600 BLOCK RIVER ST, Austin", "6900 BLOCK BREEZY PASS, Austin"]
-
-      
-
-      // var marker = new google.maps.Marker({
-      //   position: myLatLng,
-      //   map: map,
-      //   title: 'Hello World!'
-      // });
-
+      });
     }
         //   // Create a <script> tag and set the USGS URL as the source.
         //   var script = document.createElement('script');
@@ -88,7 +88,7 @@
         //   document.getElementsByTagName('head')[0].appendChild(script);
         // }
 
-  // EARTHQUAKE RESULTS
+// EARTHQUAKE RESULTS
 
         //   function eqfeed_callback(results) {
         //   var heatmapData = [];
@@ -112,7 +112,17 @@
 
 
 
-// API CALL THAT WORKS    
+// THIS IS A DIFFERENT VERSION OF THE AJAX CALL ABOVE. IT WORKS   
+
+          // $.getJSON("http://maps.googleapis.com/maps/api/geocode/json?address="+addresses[x]+"&sensor=false", null, function (data) {
+          //     var p = data.results[0].geometry.location
+          //     var latlng = new google.maps.LatLng(p.lat, p.lng);
+          //     new google.maps.Marker({
+          //         position: latlng,
+          //         map: map
+          //     });
+
+          // });
 
 
 
@@ -147,23 +157,5 @@
 </head>
 <body>
   <div id="map"></div>
-
-
-
-
-  <script type="text/javascript">
-
-// THE CODE BELOW WORKS //
-
-
-
-  </script>
 </body>
-
-
-
-
-
-
-
 </html>
