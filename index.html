@@ -60,10 +60,17 @@
           
                 // console.log(latlng);
                 });
+                
+                var contentString = "<p>"+addresses[x][1]+"</p>";
+                var infowindow = new google.maps.InfoWindow({
+                  content: contentString
+                });
+
                 marker.addListener('click', function() {
-                  // map.setZoom(15);
+                  map.setZoom(15);
                   map.setCenter(marker.getPosition());
                   console.log(marker.title);
+                  infowindow.open(map, marker);
                 });
 
 
