@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>AustinMaps</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTx6HnaOWxCy2LitrHA0qX1oSkwwUFcpg&libraries=geometry,visualization">
-  </script>
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <div id="map"></div>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	  <script
+	  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTx6HnaOWxCy2LitrHA0qX1oSkwwUFcpg&libraries=geometry,visualization">
+	  </script>
+	  <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+<div id="map"></div>
     <script>
     function initialize() {
       var mapCanvas = document.getElementById('map');
@@ -103,5 +104,5 @@
   </script>
   <div id="legend">
   </div>
-</body>
+  </body>
 </html>
