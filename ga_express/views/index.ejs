@@ -1,108 +1,97 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	  <script
-	  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTx6HnaOWxCy2LitrHA0qX1oSkwwUFcpg&libraries=geometry,visualization">
-	  </script>
-	  <link rel="stylesheet" type="text/css" href="style.css">
-  </head>
-  <body>
-<div id="map"></div>
-    <script>
-    function initialize() {
-      var mapCanvas = document.getElementById('map');
+<% include ./partials/header %>
 
-      var mapOptions = {
-        center: new google.maps.LatLng(30.2700, -97.7500),
-        zoom: 10,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-      var map = new google.maps.Map(mapCanvas, mapOptions);
-      addresses = [];
-      $.getJSON("https://data.austintexas.gov/resource/b4y9-5x39.json?$where=starts_with(crime_type, 'PROSTITUTION') OR starts_with(crime_type, 'DWI') OR starts_with(crime_type, 'HOMICIDE') OR starts_with(crime_type, 'THEFT')", function(data){
-        for (var i=0; i < data.length; i++) {
-          var crime = data[i].crime_type;
-          var time = data[i].time;
-          var address = data[i].address;
-          var date = new Date(data[i].date*1000);
-          addresses.push([address+", Austin, Texas",crime, time, date]);
-        }
-        for (var x = 0; x < data.length; x++) {
-          (function(x) {
-            $.ajax({
-              dataType: "json",
-              url: "http://maps.googleapis.com/maps/api/geocode/json?address="+addresses[x][0]+"&sensor=false",
-              data: null,
-              success: function (data){
-                var p = data.results[0].geometry.location
-                var latlng = new google.maps.LatLng(p.lat, p.lng);
-                var icon = "";
-                switch (addresses[x][1]) {
-                  case "DWI":
-                    icon ="blue";
-                    break;
-                  case "PROSTITUTION":
-                    icon="red";
-                    break;
-                  case "HOMICIDE INFORMATION":
-                    icon = "green";
-                    break;
-                  case "THEFT":
-                    icon="yellow";
-                    break;
-                }
-                icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
-                var marker = new google.maps.Marker({
-                  position: latlng,
-                  map: map,
-                  title: addresses[x][1],
-                  icon: new google.maps.MarkerImage(icon)
-                });
-                // new MarkerClusterer(map, this.addresses[x][1], {
-                //   gridSize: 20
-                // });
-                var contentString = 
-                  "<ul>"+
-                  "<li><b>"+addresses[x][1]+"</b></li>"+"<br>"+
-                  "<li><b>Time: </b>"+addresses[x][2]+"</li>"+
-                  "<li><b>Date: </b>"+addresses[x][3]+"</li>"
-                  +"</ul>";
-                var infowindow = new google.maps.InfoWindow({
-                  content: contentString,
-                  maxWidth: 200,
-                });
-                marker.addListener('click', function() {
-                  map.setZoom(14);
-                  map.setCenter(marker.getPosition());
-                  infowindow.open(map, this);
-                });
-              }
-            })
-                    // Create the legend and display on the map
-            var legend = document.createElement('div');
-            legend.id = 'legend';
-            var content = [];
-            var legendTitle = '<h3>Legend</h3>';
-            var blue = '<p id="blue"><img src="http://maps.google.com/mapfiles/ms/icons/blue.png"> DWI</p>';
-            var red = '<p id="red"><img src="http://maps.google.com/mapfiles/ms/icons/red.png"> Prostitution</p>';
-            var green = '<p id="green"><img src="http://maps.google.com/mapfiles/ms/icons/green.png"> Homicide</p>';
-            var yellow = '<p id="yellow"><img src="http://maps.google.com/mapfiles/ms/icons/yellow.png"> Theft</p>';
-            var linebreak = '<br>'
-            content.push([legendTitle, blue, red, green, yellow, linebreak]);
-              legend.innerHTML = content.join('');
-              legend.index = 1;
-            // }
-            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
-          })(x);
-        }
-      });
+<div id="map"></div>
+  <script>
+  function initialize() {
+    var mapCanvas = document.getElementById('map');
+
+    var mapOptions = {
+      center: new google.maps.LatLng(30.2700, -97.7500),
+      zoom: 10,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
     }
-    google.maps.event.addDomListener(window, 'load', initialize);
-  </script>
-  <div id="legend">
-  </div>
-  </body>
-</html>
+    var map = new google.maps.Map(mapCanvas, mapOptions);
+    addresses = [];
+    $.getJSON("https://data.austintexas.gov/resource/b4y9-5x39.json?$where=starts_with(crime_type, 'PROSTITUTION') OR starts_with(crime_type, 'DWI') OR starts_with(crime_type, 'HOMICIDE') OR starts_with(crime_type, 'THEFT')", function(data){
+      for (var i=0; i < data.length; i++) {
+        var crime = data[i].crime_type;
+        var time = data[i].time;
+        var address = data[i].address;
+        var date = new Date(data[i].date*1000);
+        addresses.push([address+", Austin, Texas",crime, time, date]);
+      }
+      for (var x = 0; x < data.length; x++) {
+        (function(x) {
+          $.ajax({
+            dataType: "json",
+            url: "http://maps.googleapis.com/maps/api/geocode/json?address="+addresses[x][0]+"&sensor=false",
+            data: null,
+            success: function (data){
+              var p = data.results[0].geometry.location
+              var latlng = new google.maps.LatLng(p.lat, p.lng);
+              var icon = "";
+              switch (addresses[x][1]) {
+                case "DWI":
+                  icon ="blue";
+                  break;
+                case "PROSTITUTION":
+                  icon="red";
+                  break;
+                case "HOMICIDE INFORMATION":
+                  icon = "green";
+                  break;
+                case "THEFT":
+                  icon="yellow";
+                  break;
+              }
+              icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+              var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: addresses[x][1],
+                icon: new google.maps.MarkerImage(icon)
+              });
+              // new MarkerClusterer(map, this.addresses[x][1], {
+              //   gridSize: 20
+              // });
+              var contentString = 
+                "<ul>"+
+                "<li><b>"+addresses[x][1]+"</b></li>"+"<br>"+
+                "<li><b>Time: </b>"+addresses[x][2]+"</li>"+
+                "<li><b>Date: </b>"+addresses[x][3]+"</li>"
+                +"</ul>";
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString,
+                maxWidth: 200,
+              });
+              marker.addListener('click', function() {
+                map.setZoom(14);
+                map.setCenter(marker.getPosition());
+                infowindow.open(map, this);
+              });
+            }
+          })
+                  // Create the legend and display on the map
+          var legend = document.createElement('div');
+          legend.id = 'legend';
+          var content = [];
+          var legendTitle = '<h3>Legend</h3>';
+          var blue = '<p id="blue"><img src="http://maps.google.com/mapfiles/ms/icons/blue.png"> DWI</p>';
+          var red = '<p id="red"><img src="http://maps.google.com/mapfiles/ms/icons/red.png"> Prostitution</p>';
+          var green = '<p id="green"><img src="http://maps.google.com/mapfiles/ms/icons/green.png"> Homicide</p>';
+          var yellow = '<p id="yellow"><img src="http://maps.google.com/mapfiles/ms/icons/yellow.png"> Theft</p>';
+          var linebreak = '<br>'
+          content.push([legendTitle, blue, red, green, yellow, linebreak]);
+            legend.innerHTML = content.join('');
+            legend.index = 1;
+          // }
+          map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+        })(x);
+      }
+    });
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<div id="legend"></div>
+
+<% include ./partials/footer %>
