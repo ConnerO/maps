@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var dwiSchema = new mongoose.Schema({
+var dwiSchema = new Schema({
   name: { type: String }
 });
 
