@@ -1,11 +1,8 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
-var dwiSchema = new Schema({
+var dwiSchema = new mongoose.Schema({
   name: { type: String }
-});
-
-var Dwi = mongoose.model('Dwi', dwiSchema);
+}, { collection: 'dwi' });
 
 // Make this available to our other files
-module.exports = Dwi;
+module.exports = mongoose.model('dwi', dwiSchema);
