@@ -1,8 +1,8 @@
 <% include ./partials/header %>
 
-<%= dwis %>
+<% crime %>
 
-<div id="map"></div>
+<!-- <div id="map"></div>
   <script>
   function initialize() {
     var mapCanvas = document.getElementById('map');
@@ -15,14 +15,14 @@
     var map = new google.maps.Map(mapCanvas, mapOptions);
     addresses = [];
     $.getJSON("https://data.austintexas.gov/resource/b4y9-5x39.json?$where=starts_with(crime_type, 'PROSTITUTION') OR starts_with(crime_type, 'DWI') OR starts_with(crime_type, 'HOMICIDE') OR starts_with(crime_type, 'THEFT')", function(data){
-      for (var i=0; i < data.length; i++) {
-        var crime = data[i].crime_type;
-        var time = data[i].time;
-        var address = data[i].address;
-        var date = new Date(data[i].date*1000);
-        addresses.push([address+", Austin, Texas",crime, time, date]);
-      }
+
       for (var x = 0; x < data.length; x++) {
+      	var crime = data[x].crime_type;
+        var time = data[x].time;
+        var address = data[x].address;
+        var date = new Date(data[x].date*1000);
+        addresses.push([address+", Austin, Texas",crime, time, date]);
+
         (function(x) {
           $.ajax({
             dataType: "json",
@@ -99,6 +99,6 @@
 
 
 </script>
-<div id="legend"></div>
+<div id="legend"></div> -->
 
 <% include ./partials/footer %>
