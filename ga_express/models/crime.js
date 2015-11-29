@@ -6,7 +6,7 @@ var crimeSchema = new mongoose.Schema({
 	address: { type: String, required: true  },
 	lat: { type: Number, required: true },
 	lng: { type: Number, required: true },
-	date: { type: String, index: true, required: true  },
+	date: { type: Number, index: true, required: true  },
 	incident_report_number: { type: String, index: true, required: true }
 });
 
