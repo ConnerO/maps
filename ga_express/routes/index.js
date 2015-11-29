@@ -32,9 +32,30 @@ router.get('/', function (req, res) {
 
 });
 
-router.post('/', function(req, res) {
+router.get('/test', function(req, res) {   
+	
+	// console.log("HERE GOES ELEMENT: ", element);
 
+	finalArray.forEach(function(element) {
+			if (element) {
+				console.log("THIS IS WHAT SHOULD BE GOING TO MONGO", element);
+				var finalDwis = Crime({
+					crime_type: element.crime_type,
+					time: element.time,
+					address: element.address,
+					lat: element.lat,
+					lng: element.lng,
+					date: element.date,
+					incident_report_number: element.incident_report_number
+				});
+			}
 
+	    finalDwis.save(function(err) {
+	        if (err) console.log(err);
+
+	        res.send('User created!');
+	    });
+	});
 });
 
 
@@ -68,12 +89,31 @@ function addCoords(data) {
 	});
 	Promise.all(promises).then(function(data) {
 		finalArray = data;
-		console.log("THIS IS THE FINAL ARRAY THAT SHOULD BE POSTED TO MONGO: ",finalArray);
+		// data.forEach(function(element) {
+		// 	if (element) {
+		// 		console.log("THIS IS WHAT SHOULD BE GOING TO MONGO", element);
+		// 		var finalDwis = Crime({
+		// 			crime_type: element.crime_type,
+		// 			time: element.time,
+		// 			address: element.address,
+		// 			lat: element.lat,
+		// 			lng: element.lng,
+		// 			date: element.date,
+		// 			incident_report_number: element.incident_report_number
+		// 		});
 
-		Crime.save(function(err){
-			if(err) console.log("err: ", err);
-			res.json(finalArray);
-		});
+		// 		// rest.post("mongodb://conner:qwerty@ds053184.mongolab.com:53184/austincrime").on('complete', element);
+		// 	}
+		// 	else {
+		// 		console.log("NOTHING WAS IN THE FINAL ARRAY!");
+		// 	}
+		// });
+
+
+		// Crime.save(function(err){
+		// 	if(err) console.log("err: ", err);
+		// 	res.json(finalArray);
+		// });
 
 	});
 }
